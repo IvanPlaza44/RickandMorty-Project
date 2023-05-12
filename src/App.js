@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Cards from './components/Cards/Cards.jsx';
 import Nav from './components/Nav/Nav';
@@ -11,40 +11,52 @@ import Favorites from './components/Favorites/Favorites';
 
 
 
+
 function App() {
    const location = useLocation();
-   const navigate = useNavigate()
-   const [characters, setCharacters] = React.useState([]);
-   const [access, setAccess] = React.useState(false);
-
-   const EMAIL = "plazaivanalt@gmail.com"
-   const PASSWORD = "123asd"
+   const navigate = useNavigate();
+   const [characters, setCharacters] = useState([]);
+   const [access, setAccess] = useState(false);
    
-const login = (userData) =>{
-   if(EMAIL === userData.email && PASSWORD === userData.password){
-      setAccess(true);
-      navigate("/home");
+   
+const login = async (userData) => {
+   try {
+      const { email, password } = userData;
+      const URL = 'http://localhost:3001/rickandmorty/login/';
+      const QUERY = `?email=${email}&password=${password}`
+      const { data } = await axios(URL + QUERY)
+      const { access } = data;
+      setAccess(access);
+      access && navigate('/home');
+      
+   } catch (error) {
+      console.log(error.message)      
    }
 }
-React.useEffect(() => {
-   !access && navigate('/');
-}, [access]);
+
+
+useEffect(() => {
+   !access && navigate('/')
+}, [access, navigate]);
 
 
 
-function onSearch(id) {
-   axios(`https://rickandmortyapi.com/api/character/${id}`).then(({ data }) => {
+const onSearch = async (id) => {
+   try {
+      const { data } = await axios(`http://localhost:3001/rickandmorty/character/${id}`);
       if (data.name) {
          setCharacters((oldChars) => [...oldChars, data]);
-      } else {
-         window.alert('¡No hay personajes con este ID!');
-      }
-   });
+      };
+      
+   } catch (error) {
+      alert('¡No hay personajes con este ID!')
+   }
 }
 const onClose = (id)=>{
    setCharacters(
-      characters.filter((character)=>character.id !== Number(id))
+      characters.filter((character)=> character.id !== id)
    )
+   
 }
    return (
 
