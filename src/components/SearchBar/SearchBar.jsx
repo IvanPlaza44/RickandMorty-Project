@@ -13,11 +13,11 @@ function SearchBar({onSearch}) {
    }
 
    return (
-      <div className={style.searchBar}>
+      <div className={style.container}>
 
-         <input className={style.input} value={id} onChange={handleChange} type='search' placeholder="Search Character..."/>
+         <input className={style.input} value={id} onChange={handleChange} type='Search' placeholder="Search Character..."/>
 
-         <button className={style.add} onClick={() => onSearch(id)} >Agregar🔍</button>
+         <button className={style.btn} onClick={() => onSearch(id)} >🔍</button>
       </div>
    );
 }

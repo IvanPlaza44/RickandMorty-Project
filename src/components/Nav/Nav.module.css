@@ -1,5 +1,5 @@
 .navContainer{
-    background-color: rgb(245, 244, 243);
+    background-color: rgb(120, 122, 122);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,7 +7,7 @@
 }
 
 .linkBar{
-    --color: #0077ff;
+    --color: #14752e;
     font-family: inherit;
     display: inline-block;
     width: 6em;
